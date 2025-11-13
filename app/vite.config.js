@@ -6,7 +6,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/manufacturers-marketplace/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/manufacturer-marketplace/' : '/',
   plugins: [
     vue(),
     vueDevTools(),
