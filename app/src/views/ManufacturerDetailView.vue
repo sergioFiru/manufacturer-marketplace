@@ -7,8 +7,6 @@ import { ref } from 'vue'
 const route = useRoute()
 const router = useRouter()
 
-// In a real app, you'd fetch this by ID from an API
-// For now, we'll use dummy data
 const manufacturers = {
   1: { 
     id: 1, 

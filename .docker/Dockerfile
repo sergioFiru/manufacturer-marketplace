@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy package files (if they exist)
 COPY package*.json ./
 
-# Install dependencies (won’t do anything yet if file is empty)
-RUN npm install || true
+# Install dependencies
+RUN npm install
 
 # Copy rest of the app
 COPY . .

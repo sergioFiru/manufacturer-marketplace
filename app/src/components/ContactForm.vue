@@ -38,4 +38,3 @@ function handleSubmit() {
     </button>
   </form>
 </template>
-
