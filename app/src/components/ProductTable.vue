@@ -1,6 +1,6 @@
 <script setup>
-const props = defineProps(['products'])
-const emit = defineEmits(['edit-product', 'delete-product'])
+  const props = defineProps(['products'])
+  const emit = defineEmits(['edit-product', 'delete-product'])
 </script>
 
 <template>
@@ -19,21 +19,10 @@ const emit = defineEmits(['edit-product', 'delete-product'])
         <td class="border p-2">{{ product.description }}</td>
         <td class="border p-2">${{ product.price }}</td>
         <td class="border p-2 text-center">
-          <button 
-            @click="$emit('edit-product', product)"
-            class="text-blue-600 mr-2"
-          >
-            Edit
-          </button>
-          <button 
-            @click="$emit('delete-product', product.id)"
-            class="text-red-600"
-          >
-            Delete
-          </button>
+          <button class="text-blue-600 mr-2" @click="$emit('edit-product', product)">Edit</button>
+          <button class="text-red-600" @click="$emit('delete-product', product.id)">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
 </template>
-

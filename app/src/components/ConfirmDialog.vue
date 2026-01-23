@@ -1,6 +1,6 @@
 <script setup>
-const props = defineProps(['message', 'visible'])
-const emit = defineEmits(['confirm', 'cancel'])
+  const props = defineProps(['message', 'visible'])
+  const emit = defineEmits(['confirm', 'cancel'])
 </script>
 
 <template>
@@ -8,8 +8,8 @@ const emit = defineEmits(['confirm', 'cancel'])
     <div class="bg-white p-6 rounded shadow">
       <p>{{ message }}</p>
       <div class="flex gap-4 mt-4 justify-end">
-        <button @click="$emit('cancel')" class="px-3 py-1 border rounded">Cancel</button>
-        <button @click="$emit('confirm')" class="px-3 py-1 bg-blue-500 text-white rounded">
+        <button class="px-3 py-1 border rounded" @click="$emit('cancel')">Cancel</button>
+        <button class="px-3 py-1 bg-blue-500 text-white rounded" @click="$emit('confirm')">
           Confirm
         </button>
       </div>

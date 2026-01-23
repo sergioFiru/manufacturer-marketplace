@@ -1,6 +1,6 @@
 <script setup>
-const props = defineProps(['items', 'columns'])
-const emit = defineEmits(['approve', 'reject', 'delete-item'])
+  const props = defineProps(['items', 'columns'])
+  const emit = defineEmits(['approve', 'reject', 'delete-item'])
 </script>
 
 <template>
@@ -19,27 +19,11 @@ const emit = defineEmits(['approve', 'reject', 'delete-item'])
           {{ item[col.toLowerCase()] }}
         </td>
         <td class="border p-2 text-center">
-          <button 
-            @click="$emit('approve', item.id)"
-            class="text-green-600 mr-2"
-          >
-            Approve
-          </button>
-          <button 
-            @click="$emit('reject', item.id)"
-            class="text-yellow-600 mr-2"
-          >
-            Reject
-          </button>
-          <button 
-            @click="$emit('delete-item', item.id)"
-            class="text-red-600"
-          >
-            Delete
-          </button>
+          <button class="text-green-600 mr-2" @click="$emit('approve', item.id)">Approve</button>
+          <button class="text-yellow-600 mr-2" @click="$emit('reject', item.id)">Reject</button>
+          <button class="text-red-600" @click="$emit('delete-item', item.id)">Delete</button>
         </td>
       </tr>
     </tbody>
   </table>
 </template>
-

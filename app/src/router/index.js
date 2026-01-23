@@ -16,7 +16,7 @@ const router = createRouter({
     { path: '/dashboard', name: 'dashboard', component: DashboardView },
     { path: '/admin', name: 'admin', component: AdminView },
     { path: '/manufacturer/:id', name: 'manufacturer-detail', component: ManufacturerDetailView },
-    { path: '/contact', name: 'contact', component: ContactView },
+    { path: '/contact', name: 'contact', component: ContactView }
   ],
   linkActiveClass: 'text-blue-600 font-bold'
 })
