@@ -3,9 +3,68 @@ services:
     build:
       context: ./app
       dockerfile: ../.docker/Dockerfile
+    container_name: app.marketplace
+    environment:
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: true
+      CHOKIDAR_INTERVAL: 100
     ports:
       - "5173:5173"
     volumes:
       - ./app:/app
     working_dir: /app
     command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+
+  api:
+    build: .docker/api
+    container_name: api.marketplace
+    environment:
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: true
+      CHOKIDAR_INTERVAL: 100
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api:/api
+    working_dir: /api
+    command: sh -c "npm install && node api.js"
+
+  mysql:
+    build: .docker/mysql
+    container_name: mysql.marketplace
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: marketplace
+      MYSQL_USER: marketplace
+      MYSQL_PASSWORD: marketplace
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./.docker/mysql/utf8mb4.cnf:/etc/mysql/conf.d/utf8mb4.cnf:ro
+      - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.3
+    container_name: pma.marketplace
+    ports:
+      - "8088:80"
+    environment:
+      PMA_HOST: mysql.marketplace
+      PMA_USER: marketplace
+      PMA_PASSWORD: marketplace
+      UPLOAD_LIMIT: 250M
+    restart: always
+
+  android-builder:
+    build: .docker/android-builder
+    container_name: android-builder.marketplace
+    volumes:
+      - ./app:/workspace
+    profiles:
+      - android
+
+volumes:
+  mysql_data:
+    driver: local

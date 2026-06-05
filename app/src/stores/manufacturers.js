@@ -1,55 +1,19 @@
 import { defineStore } from 'pinia'
+import axios from '@/api'
+import { useAuth } from '@/stores/auth.js'
+
+const API = 'http://localhost:3000'
 
 export const useManufacturersStore = defineStore('manufacturers', {
-  // STATE - the data
   state: () => ({
-    manufacturers: [
-      {
-        id: 1,
-        name: 'TechCorp Industries',
-        description: 'Leading manufacturer of electronic components',
-        category: 'Electronics',
-        location: 'North America'
-      },
-      {
-        id: 2,
-        name: 'Global Manufacturing Co',
-        description: 'Worldwide supplier of industrial equipment',
-        category: 'Automotive',
-        location: 'Europe'
-      },
-      {
-        id: 3,
-        name: 'Precision Parts Ltd',
-        description: 'Specialized in high-precision mechanical parts',
-        category: 'Automotive',
-        location: 'Asia'
-      },
-      {
-        id: 4,
-        name: 'Textile Masters',
-        description: 'Premium fabric and textile manufacturer',
-        category: 'Textiles',
-        location: 'Asia'
-      },
-      {
-        id: 5,
-        name: 'FoodPro Inc',
-        description: 'Organic food processing and packaging',
-        category: 'Food & Beverage',
-        location: 'North America'
-      }
-    ]
+    manufacturers: []
   }),
 
-  // GETTERS - computed values (read-only)
   getters: {
-    // Getter 1: Find a manufacturer by ID
     getManufacturerById: (state) => {
       return (id) => state.manufacturers.find((m) => m.id === id)
     },
 
-    // Getter 2: Get manufacturers filtered by category
     manufacturersByCategory: (state) => {
       return (category) => {
         if (!category) return state.manufacturers
@@ -58,19 +22,57 @@ export const useManufacturersStore = defineStore('manufacturers', {
     }
   },
 
-  // ACTIONS - functions that modify state
   actions: {
-    // Action 1: Add a new manufacturer
-    addManufacturer(manufacturer) {
-      const newId = Math.max(...this.manufacturers.map((m) => m.id)) + 1
-      this.manufacturers.push({ ...manufacturer, id: newId })
+    authHeaders() {
+      const auth = useAuth()
+      if (!auth.token) return {}
+      return { Authorization: `Bearer ${auth.token}` }
     },
 
-    // Action 2: Delete a manufacturer
-    deleteManufacturer(id) {
-      const index = this.manufacturers.findIndex((m) => m.id === id)
-      if (index !== -1) {
-        this.manufacturers.splice(index, 1)
+    async fetchManufacturers() {
+      try {
+        const response = await axios.get(`${API}/manufacturer/get-all`, {
+          headers: this.authHeaders()
+        })
+        this.manufacturers = response.data
+      } catch (error) {
+        console.error('Error fetching manufacturers:', error)
+      }
+    },
+
+    async addManufacturer(manufacturer) {
+      try {
+        const response = await axios.post(`${API}/manufacturer/add`, manufacturer, {
+          headers: this.authHeaders()
+        })
+        this.manufacturers.push(response.data)
+      } catch (error) {
+        console.error('Error adding manufacturer:', error)
+      }
+    },
+
+    async updateManufacturer(id, data) {
+      try {
+        await axios.put(`${API}/manufacturer/update`, { id, ...data }, {
+          headers: this.authHeaders()
+        })
+        const index = this.manufacturers.findIndex((m) => m.id === id)
+        if (index !== -1) Object.assign(this.manufacturers[index], data)
+      } catch (error) {
+        console.error('Error updating manufacturer:', error)
+      }
+    },
+
+    async deleteManufacturer(id) {
+      try {
+        await axios.delete(`${API}/manufacturer/delete`, {
+          data: { id },
+          headers: this.authHeaders()
+        })
+        const index = this.manufacturers.findIndex((m) => m.id === id)
+        if (index !== -1) this.manufacturers.splice(index, 1)
+      } catch (error) {
+        console.error('Error deleting manufacturer:', error)
       }
     }
   }

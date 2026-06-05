@@ -5,16 +5,13 @@
 
 <template>
   <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-    <!-- Header with Image -->
     <div class="h-48 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
       <span class="text-white text-6xl font-bold opacity-50">
         {{ manufacturer.name.charAt(0) }}
       </span>
     </div>
 
-    <!-- Content -->
     <div class="p-6">
-      <!-- Title and Tags -->
       <div class="mb-4">
         <h2 class="text-2xl font-bold text-gray-800 mb-3">{{ manufacturer.name }}</h2>
         <div class="flex flex-wrap gap-2">
@@ -35,13 +32,11 @@
         </div>
       </div>
 
-      <!-- Description -->
       <div class="mb-6">
         <h3 class="text-sm font-semibold text-gray-500 uppercase mb-2">About</h3>
         <p class="text-gray-700 leading-relaxed">{{ manufacturer.description }}</p>
       </div>
 
-      <!-- Stats/Info Grid -->
       <div class="grid grid-cols-2 gap-4 mb-6">
         <div class="bg-gray-50 rounded-lg p-4 text-center">
           <div class="text-2xl font-bold text-blue-600">50+</div>
@@ -53,7 +48,6 @@
         </div>
       </div>
 
-      <!-- Contact Button -->
       <button
         class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
         @click="$emit('contact-manufacturer', manufacturer)"

@@ -1,4 +1,5 @@
 <script setup>
+  import { computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useManufacturersStore } from '@/stores/manufacturers'
   import { useUiStore } from '@/stores/ui'
@@ -9,12 +10,12 @@
   const manufacturersStore = useManufacturersStore()
   const uiStore = useUiStore()
 
-  // Get first 3 manufacturers as "featured"
-  const manufacturers = manufacturersStore.manufacturers.slice(0, 3)
+  onMounted(() => manufacturersStore.fetchManufacturers())
+
+  const manufacturers = computed(() => manufacturersStore.manufacturers.slice(0, 3))
 
   function handleSearch(query) {
     uiStore.setSearchQuery(query)
-    // Navigate to directory with search active
     router.push('/directory')
   }
 

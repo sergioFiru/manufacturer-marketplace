@@ -1,5 +1,5 @@
 <script setup>
-  import { computed } from 'vue'
+  import { computed, onMounted } from 'vue'
   import { useRouter } from 'vue-router'
   import { useManufacturersStore } from '@/stores/manufacturers'
   import { useUiStore } from '@/stores/ui'
@@ -10,25 +10,22 @@
   const manufacturersStore = useManufacturersStore()
   const uiStore = useUiStore()
 
+  onMounted(() => manufacturersStore.fetchManufacturers())
+
   const categories = ['Electronics', 'Automotive', 'Textiles', 'Food & Beverage']
   const locations = ['North America', 'Europe', 'Asia', 'South America']
 
-  // COMPUTED: Filter manufacturers based on UI state
-  // This automatically updates when filters change!
   const filteredManufacturers = computed(() => {
     let result = manufacturersStore.manufacturers
 
-    // Filter by categories if any selected
     if (uiStore.selectedCategories.length > 0) {
       result = result.filter((m) => uiStore.selectedCategories.includes(m.category))
     }
 
-    // Filter by locations if any selected
     if (uiStore.selectedLocations.length > 0) {
       result = result.filter((m) => uiStore.selectedLocations.includes(m.location))
     }
 
-    // Filter by search query if present
     if (uiStore.searchQuery) {
       const query = uiStore.searchQuery.toLowerCase()
       result = result.filter(
@@ -40,7 +37,6 @@
   })
 
   function handleFilterChange(filter) {
-    // Save filters to UI store
     uiStore.setFilters(filter.categories || [], filter.locations || [])
   }
 

@@ -4,11 +4,9 @@
   const props = defineProps(['categories', 'locations'])
   const emit = defineEmits(['filter-change'])
 
-  // Track selected filters (arrays for multiple selections)
   const selectedCategories = ref([])
   const selectedLocations = ref([])
 
-  // WATCH: Emit changes whenever filters change
   watch(
     [selectedCategories, selectedLocations],
     () => {
@@ -20,7 +18,6 @@
     { deep: true }
   )
 
-  // Clear all filters
   function clearFilters() {
     selectedCategories.value = []
     selectedLocations.value = []
